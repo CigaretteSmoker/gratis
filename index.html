@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etalase Digital Saya</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
+        header { background: linear-gradient(135deg, #0078d4, #005a9e); color: white; text-align: center; padding: 40px 20px; }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { margin: 10px 0 0; font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; transition: transform 0.2s; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-5px); }
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { margin: 0 0 10px; font-size: 1.3rem; color: #111; }
+        .card-text { color: #666; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
+        .btn { display: block; text-align: center; background-color: #0078d4; color: white; text-decoration: none; padding: 12px; border-radius: 6px; font-weight: bold; transition: background 0.2s; }
+        .btn:hover { background-color: #005a9e; }
+        .btn-secondary { background-color: #201f1e; }
+        .btn-secondary:hover { background-color: #323130; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Etalase Digital Gratis</h1>
+        <p>Selamat datang di katalog produk dan software inovatif kami</p>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Automated Banner Generator</h3>
+                    <p class="card-text">Aplikasi web berkecepatan tinggi untuk membuat banner promosi e-commerce otomatis langsung di browser Anda secara hemat kuota.</p>
+                    <a href="generator/tulisan.html" class="btn">Buka Aplikasi</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Hubungi Kami (WhatsApp)</h3>
+                    <p class="card-text">Tertarik dengan kustomisasi software berbasis Rust, eBPF, atau aplikasi web berkinerja tinggi? Diskusikan kebutuhan bisnis Anda sekarang.</p>
+                    <a href="https://wa.me/6281217635786" target="_blank" class="btn btn-secondary">Tanya via WA</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Segera Hadir</h3>
+                    <p class="card-text">Produk Micro-SaaS inovatif berikutnya sedang dalam tahap pengembangan di "Zona Pantai" kami. Tetap pantau halaman ini.</p>
+                    <a href="#" class="btn btn-secondary" style="opacity: 0.5; pointer-events: none;">Coming Soon</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
