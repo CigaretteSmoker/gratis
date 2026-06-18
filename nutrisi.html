@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Pupuk Cair Pro + pH Tanah</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen py-6 px-4 flex flex-col items-center justify-center">
+    
+    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl w-full max-w-md border border-gray-700">
+        <h2 class="text-xl font-bold mb-1 text-emerald-400 text-center">Kalkulator Takaran Pupuk Cair</h2>
+        <p class="text-xs text-gray-400 text-center mb-5">Standar Akurat Uji Produksi Kebun</p>
+        
+        <label class="block text-sm font-medium mb-1 text-gray-300">Pilih Jenis Tanaman:</label>
+        <select id="tanaman" class="w-full p-2.5 bg-gray-700 rounded-lg mb-4 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm" onchange="hitungNutrisi()">
+            <optgroup label="🌾 TANAMAN PANGAN & PALAWIJA">
+                <option value="padi">Padi</option>
+                <option value="jagung">Jagung</option>
+                <option value="kedelai">Kedelai</option>
+            </optgroup>
+            <optgroup label="🌱 VEGETASI (Sayuran Daun)">
+                <option value="selada">Selada (Lettuce)</option>
+                <option value="sawi">Sawi / Pakcoy / Caisim</option>
+                <option value="bayam">Bayam</option>
+                <option value="kangkung">Kangkung</option>
+                <option value="seledri">Seledri</option>
+                <option value="daun_bawang">Daun Bawang</option>
+                <option value="kubis">Kubis / Kol</option>
+                <option value="basil">Kemangi / Basil</option>
+                <option value="mint">Mint</option>
+                <option value="kale">Kale</option>
+            </optgroup>
+            <optgroup label="🍅 HORTIKULTURA (Buah / Bunga / Umbi)">
+                <option value="bawang_merah" selected>Bawang Merah</option>
+                <option value="tomat">Tomat</option>
+                <option value="cabai">Cabai (Rawit/Besar)</option>
+                <option value="melon">Melon</option>
+                <option value="semangka">Semangka</option>
+                <option value="mentimun">Mentimun</option>
+                <option value="terong">Terong</option>
+                <option value="strawberi">Strawberi</option>
+                <option value="paprika">Paprika</option>
+                <option value="kacang_panjang">Kacang Panjang</option>
+                <option value="bunga_potong">Bunga Krisan / Mawar</option>
+            </optgroup>
+            <optgroup label="🌳 TANAMAN KERAS (Pohon Buah & Perkebunan)">
+                <option value="mangga">Mangga</option>
+                <option value="durian">Durian</option>
+                <option value="alpukat">Alpukat</option>
+                <option value="kelengkeng">Kelengkeng</option>
+                <option value="jeruk">Jeruk (Sunkist/Siam)</option>
+                <option value="jambu">Jambu Kristal / Air</option>
+                <option value="kopi">Kopi</option>
+                <option value="kakao">Kakao (Cokelat)</option>
+                <option value="karet">Karet (Pembibitan)</option>
+                <option value="sengon_jati">Sengon / Jati</option>
+            </optgroup>
+        </select>
+
+        <label class="block text-sm font-medium mb-1 text-gray-300">Volume Air di Tangki / Wadah (Liter):</label>
+        <input id="air" type="number" value="10" min="1" class="w-full p-2.5 bg-gray-700 rounded-lg mb-5 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500" oninput="hitungNutrisi()">
+
+        <div class="space-y-3 bg-gray-900/60 p-4 rounded-lg border border-gray-700 mb-4">
+            <div class="flex justify-between border-b border-gray-700 pb-2">
+                <span class="text-gray-400 text-sm">Golongan Tanaman:</span>
+                <span id="kelas" class="font-semibold text-xs uppercase tracking-wider bg-gray-800 px-2 py-0.5 rounded text-gray-300">-</span>
+            </div>
+            <div class="flex justify-between border-b border-gray-700 pb-2">
+                <span class="text-gray-400 text-sm">Target Kepekatan Air:</span>
+                <span id="target" class="font-bold text-emerald-400">-</span>
+            </div>
+            <div class="flex justify-between border-b border-gray-700 pb-2 items-center">
+                <span class="text-gray-400 text-sm">Standar pH Tanah Ideal:</span>
+                <span id="phTanah" class="font-bold text-teal-400 bg-teal-950/40 border border-teal-900/50 px-2 py-0.5 rounded text-xs">-</span>
+            </div>
+            
+            <div class="pt-1">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="font-medium text-gray-200">Pupuk Utama (Botol A):</span>
+                    <span id="stokA" class="font-bold text-sky-400 bg-sky-950/40 border border-sky-900/50 px-2 py-1 rounded min-w-[85px] text-right">-</span>
+                </div>
+                <p class="text-[10px] text-sky-500/80 mt-0.5 italic">Untuk pondasi batang, kalsium, dan pembentukan daun hijau.</p>
+            </div>
+
+            <div class="pt-1">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="font-medium text-gray-200">Pupuk Pelengkap (Botol B):</span>
+                    <span id="stokB" class="font-bold text-amber-400 bg-amber-950/40 border border-amber-900/50 px-2 py-1 rounded min-w-[85px] text-right">-</span>
+                </div>
+                <p class="text-[10px] text-amber-500/80 mt-0.5 italic">Untuk pengisian umbi/buah, pemanis rasa, dan unsur mikro.</p>
+            </div>
+        </div>
+
+        <div class="bg-emerald-950/20 border border-emerald-900/40 p-3 rounded-lg text-center mb-6">
+            <p class="text-xs text-emerald-400 font-medium">💡 Panduan Alat Ukur Lapangan:</p>
+            <p class="text-[11px] text-gray-400 mt-1">1 Tutup Botol Kemasan standar ≈ 10 mL | 1 Sendok Makan penuh ≈ 15 mL</p>
+        </div>
+
+        <div class="border-t border-gray-700 pt-4 space-y-2">
+            <h3 class="text-sm font-semibold text-emerald-400 mb-2">📋 SOP Pengaplikasian (0 HST - Panen)</h3>
+            
+            <details class="bg-gray-900/40 border border-gray-700 rounded-lg group text-xs">
+                <summary class="p-2.5 font-medium cursor-pointer flex justify-between items-center select-none text-gray-300">
+                    <span>1. Tahap Pembibitan (0 - 7 HST)</span>
+                    <span class="text-gray-500 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="p-2.5 pt-0 text-gray-400 border-t border-gray-800 leading-relaxed">
+                    Akar masih sangat muda. <strong class="text-emerald-400">Gunakan setengah (50%) dari dosis kalkulator</strong> di atas untuk mencegah stres pindah tanam atau akar terbakar.
+                </div>
+            </details>
+
+            <details class="bg-gray-900/40 border border-gray-700 rounded-lg group text-xs">
+                <summary class="p-2.5 font-medium cursor-pointer flex justify-between items-center select-none text-gray-300">
+                    <span>2. Tahap Pertumbuhan (8 - 28 HST)</span>
+                    <span class="text-gray-500 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="p-2.5 pt-0 text-gray-400 border-t border-gray-800 leading-relaxed">
+                    Tanaman tumbuh aktif. <strong class="text-emerald-400">Berikan 100% dosis penuh sesuai kalkulator</strong>. Jika sistem siram manual/kocor, aplikasikan 2-3 kali seminggu pada pagi hari (06.00-09.00).
+                </div>
+            </details>
+
+            <details class="bg-gray-900/40 border border-gray-700 rounded-lg group text-xs">
+                <summary class="p-2.5 font-medium cursor-pointer flex justify-between items-center select-none text-gray-300">
+                    <span>3. Tahap Pembuahan & Umbi (29 HST - Menuju Panen)</span>
+                    <span class="text-gray-500 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="p-2.5 pt-0 text-gray-400 border-t border-gray-800 leading-relaxed">
+                    Muncul bunga/umbi. <strong class="text-emerald-400">Tetap pertahankan dosis 100%</strong>. Konsumsi air akan naik; jika air menyusut akibat penguapan, tambah air bersih dulu hingga ukuran awal baru hitung ulang dengan kalkulator.
+                </div>
+            </details>
+
+            <details class="bg-gray-900/40 border border-gray-700 rounded-lg group text-xs">
+                <summary class="p-2.5 font-medium cursor-pointer flex justify-between items-center select-none text-gray-300">
+                    <span>4. Tahap Pembersihan / Flushing (3 - 7 Hari Sebelum Panen)</span>
+                    <span class="text-gray-500 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="p-2.5 pt-0 text-gray-400 border-t border-gray-800 leading-relaxed">
+                    <strong class="text-red-400">Hentikan total pemberian pupuk (0% nutrisi)</strong>. Aliri atau siram lahan hanya menggunakan air bersih biasa. Ini berfungsi membersihkan endapan kimia mineral sehingga rasa panen lebih segar, manis asli, dan tahan lama saat disimpan.
+                </div>
+            </details>
+
+            <div class="bg-amber-950/20 border border-amber-900/50 p-3 rounded-lg text-[11px] text-amber-300 leading-relaxed mt-4">
+                <strong class="block text-xs font-bold mb-1 text-amber-400">⚠️ 3 ATURAN EMAS & MANAJEMEN pH LAPANGAN:</strong>
+                1. <span class="underline">Dilarang keras</span> mencampur cairan Botol A dan Botol B langsung tanpa air! Isi tangki dengan air bersih dulu, masukkan pupuk A, aduk rata, baru masukkan pupuk B.<br>
+                2. <strong class="text-amber-400">Pentingnya pH Tanah:</strong> Cek pH tanah secara berkala sebelum pemupukan menggunakan Soil pH Meter. Jika pH tanah di bawah target ideal (terlalu asam), netralkan dengan menaburkan kapur dolomit/sulfur sesuai kebutuhan sebelum pupuk kocor diaplikasikan agar nutrisi tidak mubazir dan terikat di tanah.<br>
+                3. Jangan menyiram pupuk cair di terik siang hari untuk mencegah layu mendadak akibat panas perakaran.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database Preset Tanaman dengan Tambahan Target pH Tanah Akurat
+        const databaseTanaman = {
+            // TANAMAN PANGAN & PALAWIJA
+            padi: { nama: "Padi", kelas: "Tanaman Pangan", ppm: 1260, rasio: 6.3, ph: "5.5 - 6.5" },
+            jagung: { nama: "Jagung", kelas: "Tanaman Pangan", ppm: 1680, rasio: 8.4, ph: "5.6 - 6.8" },
+            kedelai: { nama: "Kedelai", kelas: "Tanaman Pangan", ppm: 1120, rasio: 5.6, ph: "6.0 - 6.5" },
+
+            // VEGETASI
+            selada: { nama: "Selada", kelas: "Vegetasi", ppm: 840, rasio: 4.2, ph: "6.0 - 6.5" },
+            sawi: { nama: "Sawi/Pakcoy", kelas: "Vegetasi", ppm: 1050, rasio: 5.25, ph: "6.0 - 7.0" },
+            bayam: { nama: "Bayam", kelas: "Vegetasi", ppm: 1120, rasio: 5.6, ph: "6.0 - 7.0" },
+            kangkung: { nama: "Kangkung", kelas: "Vegetasi", ppm: 1190, rasio: 5.95, ph: "5.5 - 6.5" },
+            seledri: { nama: "Seledri", kelas: "Vegetasi", ppm: 1260, rasio: 6.3, ph: "6.2 - 6.8" },
+            daun_bawang: { nama: "Daun Bawang", kelas: "Vegetasi", ppm: 1120, rasio: 5.6, ph: "6.5 - 7.0" },
+            kubis: { nama: "Kubis", kelas: "Vegetasi", ppm: 1260, rasio: 6.3, ph: "6.0 - 6.8" },
+            basil: { nama: "Basil/Kemangi", kelas: "Vegetasi", ppm: 980, rasio: 4.9, ph: "6.0 - 6.5" },
+            mint: { nama: "Mint", kelas: "Vegetasi", ppm: 980, rasio: 4.9, ph: "6.0 - 7.0" },
+            kale: { nama: "Kale", kelas: "Vegetasi", ppm: 1330, rasio: 6.65, ph: "6.0 - 7.5" },
+
+            // HORTIKULTURA
+            bawang_merah: { nama: "Bawang Merah", kelas: "Hortikultura", ppm: 1260, rasio: 6.3, ph: "5.6 - 6.5" },
+            tomat: { nama: "Tomat", kelas: "Hortikultura", ppm: 1540, rasio: 7.7, ph: "6.0 - 6.8" },
+            cabai: { nama: "Cabai", kelas: "Hortikultura", ppm: 1400, rasio: 7.0, ph: "5.5 - 6.5" },
+            melon: { nama: "Melon", kelas: "Hortikultura", ppm: 1680, rasio: 8.4, ph: "6.0 - 6.8" },
+            semangka: { nama: "Semangka", kelas: "Hortikultura", ppm: 1540, rasio: 7.7, ph: "6.0 - 6.8" },
+            mentimun: { nama: "Mentimun", kelas: "Hortikultura", ppm: 1400, rasio: 7.0, ph: "5.5 - 6.8" },
+            terong: { nama: "Terong", kelas: "Hortikultura", ppm: 1610, rasio: 8.05, ph: "6.0 - 6.8" },
+            strawberi: { nama: "Strawberi", kelas: "Hortikultura", ppm: 980, rasio: 4.9, ph: "5.5 - 6.5" },
+            paprika: { nama: "Paprika", kelas: "Hortikultura", ppm: 1470, rasio: 7.35, ph: "6.0 - 6.5" },
+            kacang_panjang: { nama: "Kacang Panjang", kelas: "Hortikultura", ppm: 1260, rasio: 6.3, ph: "5.5 - 6.5" },
+            bunga_potong: { nama: "Bunga Potong", kelas: "Hortikultura", ppm: 1120, rasio: 5.6, ph: "6.0 - 7.0" },
+
+            // TANAMAN KERAS
+            mangga: { nama: "Mangga", kelas: "Tanaman Keras", ppm: 1750, rasio: 8.75, ph: "5.5 - 6.5" },
+            durian: { nama: "Durian", kelas: "Tanaman Keras", ppm: 1960, rasio: 9.8, ph: "6.0 - 6.5" },
+            alpukat: { nama: "Alpukat", kelas: "Tanaman Keras", ppm: 1750, rasio: 8.75, ph: "5.6 - 6.5" },
+            kelengkeng: { nama: "Kelengkeng", kelas: "Tanaman Keras", ppm: 1820, rasio: 9.1, ph: "5.5 - 6.5" },
+            jeruk: { nama: "Jeruk", kelas: "Tanaman Keras", ppm: 1680, rasio: 8.4, ph: "5.5 - 6.5" },
+            jambu: { nama: "Jambu", kelas: "Tanaman Keras", ppm: 1540, rasio: 7.7, ph: "5.5 - 6.5" },
+            kopi: { nama: "Kopi", kelas: "Tanaman Keras", ppm: 1890, rasio: 9.45, ph: "5.5 - 6.5" },
+            kakao: { nama: "Kakao", kelas: "Tanaman Keras", ppm: 1750, rasio: 8.75, ph: "6.0 - 6.5" },
+            karet: { nama: "Karet", kelas: "Tanaman Keras", ppm: 1610, rasio: 8.05, ph: "4.5 - 5.5" },
+            sengon_jati: { nama: "Sengon/Jati", kelas: "Tanaman Keras", ppm: 1680, rasio: 8.4, ph: "6.0 - 7.5" }
+        };
+
+        function hitungNutrisi() {
+            const idTanaman = document.getElementById("tanaman").value;
+            const air = parseFloat(document.getElementById("air").value) || 0;
+            const t = databaseTanaman[idTanaman];
+
+            if (air <= 0) {
+                document.getElementById("kelas").innerText = "-";
+                document.getElementById("target").innerText = "-";
+                document.getElementById("phTanah").innerText = "-";
+                document.getElementById("stokA").innerText = "-";
+                document.getElementById("stokB").innerText = "-";
+                return;
+            }
+
+            const mlDibutuhkan = (t.rasio * air).toFixed(1);
+
+            document.getElementById("kelas").innerText = t.kelas;
+            document.getElementById("target").innerText = `${t.ppm} PPM`;
+            document.getElementById("phTanah").innerText = `${t.ph}`;
+            document.getElementById("stokA").innerText = `${mlDibutuhkan} mL`;
+            document.getElementById("stokB").innerText = `${mlDibutuhkan} mL`;
+        }
+
+        window.onload = hitungNutrisi;
+    </script>
+</body>
+</html>
